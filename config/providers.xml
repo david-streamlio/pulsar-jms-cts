@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<!-- ====================================================================== -->
+<!-- Provider configuration file                                            -->
+<!--                                                                        -->
+<!-- This configures JMS CTS to test RabbitMQ's JMS                         -->
+<!-- ====================================================================== -->
+
+<configuration>
+    <provider>
+        <name>PulsarJMS</name>
+        <class>org.apache.pulsar.integration.jmscts.PulsarJmsProvider</class>
+        <config>
+            <path>config/pulsar.xml</path>
+        </config>
+    </provider>
+</configuration>

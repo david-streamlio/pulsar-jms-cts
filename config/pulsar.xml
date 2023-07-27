@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<configuration>
+  <proxy provider="org.apache.pulsar.integration.jmscts.PulsarJmsProvider"
+         start="false" stop="true">
+  </proxy>
+</configuration>
