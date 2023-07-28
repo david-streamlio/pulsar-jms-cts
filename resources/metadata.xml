@@ -3,7 +3,7 @@
 <meta-data>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.header.JMSCorrelationIDTest</name>
+    <name>org.exolab.jmscts.test.message.header.JMSCorrelationIDTest</name>
     <description>
       This class tests the JMSCorrelationID message property
     </description>
@@ -44,7 +44,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.header.JMSReplyToTest</name>
+    <name>org.exolab.jmscts.test.message.header.JMSReplyToTest</name>
     <description>
       This class tests the JMSReplyTo message property.
     </description>
@@ -70,7 +70,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.map.MapMessageTest</name>
+    <name>org.exolab.jmscts.test.message.map.MapMessageTest</name>
     <description>
       This class tests the <code>MapMessage</code> message type.
     </description>
@@ -210,7 +210,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.selector.BetweenOperatorTest</name>
+    <name>org.exolab.jmscts.test.selector.BetweenOperatorTest</name>
     <description>
       This class tests selector containing the BETWEEN operator.
     </description>
@@ -404,7 +404,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.object.ObjectMessageTest</name>
+    <name>org.exolab.jmscts.test.message.object.ObjectMessageTest</name>
     <description>
       This class tests the <code>ObjectMessage</code> message type
     </description>
@@ -431,7 +431,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.producer.ttl.QueueSenderTest</name>
+    <name>org.exolab.jmscts.test.producer.ttl.QueueSenderTest</name>
     <description>
       This class tests the behaviour of the time-to-live methods and their affect on the JMSExpiration, for <code>QueueSender</code>s
     </description>
@@ -524,7 +524,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.stress.SendReceive50Size0KTest</name>
+    <name>org.exolab.jmscts.stress.SendReceive50Size0KTest</name>
     <description>
       Performs a stress test using one producer, fifty consumers and empty messages.
     </description>
@@ -560,7 +560,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.connection.ClientIdentifierTest</name>
+    <name>org.exolab.jmscts.test.connection.ClientIdentifierTest</name>
     <description>
       This class verifies that the client identifier can be set, but only on creation of a connection.
     </description>
@@ -635,7 +635,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.properties.JMSXGroupTest</name>
+    <name>org.exolab.jmscts.test.message.properties.JMSXGroupTest</name>
     <description>
       This class tests that connections support JMSXGroupID and JMSXGroupSeq properties <br/> NOTE: the specification is not clear on the behaviour of null values for these properties.
     </description>
@@ -687,7 +687,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.MessageListenerTest</name>
+    <name>org.exolab.jmscts.test.session.MessageListenerTest</name>
     <description>
       This class tests that MessageListeners are invoked serially.
     </description>
@@ -715,7 +715,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.connection.MetaDataTest</name>
+    <name>org.exolab.jmscts.test.connection.MetaDataTest</name>
     <description>
       This class tests that connections support JMSXGroupID and JMSXGroupSeq properties.
     </description>
@@ -735,7 +735,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.selector.EmptySelectorTest</name>
+    <name>org.exolab.jmscts.test.selector.EmptySelectorTest</name>
     <description>
       This class tests the behaviour of empty selectors.
     </description>
@@ -775,7 +775,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.clientack.RepublishTest</name>
+    <name>org.exolab.jmscts.test.session.clientack.RepublishTest</name>
     <description>
       This class tests the behaviour of republishing a received message, and then acknowledging it.
     </description>
@@ -806,7 +806,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.properties.PropertyTypeTest</name>
+    <name>org.exolab.jmscts.test.message.properties.PropertyTypeTest</name>
     <description>
       This class tests message property types
     </description>
@@ -833,7 +833,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.clear.RollbackClearTest</name>
+    <name>org.exolab.jmscts.test.message.clear.RollbackClearTest</name>
     <description>
       This class tests the behaviour of <code>Message.clearBody()</code> and <code>Message.clearProperties()</code> for transacted sessions where the session is rolled back.
     </description>
@@ -868,7 +868,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.properties.IdentifierTest</name>
+    <name>org.exolab.jmscts.test.message.properties.IdentifierTest</name>
     <description>
       This class tests message property identifiers.
     </description>
@@ -940,7 +940,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.stress.ReceiveSize0KTest</name>
+    <name>org.exolab.jmscts.stress.ReceiveSize0KTest</name>
     <description>
       Performs a stress test using one producer, one consumer and empty messages.
     </description>
@@ -982,7 +982,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.copy.MessageCopyTest</name>
+    <name>org.exolab.jmscts.test.message.copy.MessageCopyTest</name>
     <description>
       This class tests that message properties and message bodies are copied on send and receive.
     </description>
@@ -1014,7 +1014,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.selector.OrOperatorTest</name>
+    <name>org.exolab.jmscts.test.selector.OrOperatorTest</name>
     <description>
       This class tests selectors containing the OR operator.
     </description>
@@ -1135,7 +1135,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.selector.InOperatorTest</name>
+    <name>org.exolab.jmscts.test.selector.InOperatorTest</name>
     <description>
       This class tests selectors containing the IN operator.
     </description>
@@ -1247,7 +1247,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.selector.AndOperatorTest</name>
+    <name>org.exolab.jmscts.test.selector.AndOperatorTest</name>
     <description>
       This class tests selectors containing the AND operator.
     </description>
@@ -1368,7 +1368,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.copy.MapMessageTest</name>
+    <name>org.exolab.jmscts.test.message.copy.MapMessageTest</name>
     <description>
       This class tests that <code>MapMessage</code> copies byte array content
     </description>
@@ -1409,7 +1409,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.selector.StringTest</name>
+    <name>org.exolab.jmscts.test.selector.StringTest</name>
     <description>
       This class tests selectors containing string literals and objects
     </description>
@@ -1624,7 +1624,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.properties.PropertyTest</name>
+    <name>org.exolab.jmscts.test.message.properties.PropertyTest</name>
     <description>
       This class tests that message properties set before a message is sent are identical to those received.
     </description>
@@ -1658,7 +1658,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.selector.BooleanTest</name>
+    <name>org.exolab.jmscts.test.selector.BooleanTest</name>
     <description>
       This class tests selectors containing boolean literals.
     </description>
@@ -1780,7 +1780,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.producer.ttl.ExpirationTest</name>
+    <name>org.exolab.jmscts.test.producer.ttl.ExpirationTest</name>
     <description>
       This class tests message expiration.
     </description>
@@ -1812,7 +1812,7 @@
       <name>testExpiration</name>
       <description>
         Verifies that messages expire. <p/> It sends two groups of messages - one group which expires after 1 second, and another which don't expire, and verifies that after the first group should have expired, only the non-expiring group can be received. <p/> If the JMS provider doesn't support immediate expiration of messages, the <em>
-          org.exolab.org.exolab.jmscts.test.producer.ttl.ExpirationTest.expirationInterval
+          org.exolab.jmscts.test.producer.ttl.ExpirationTest.expirationInterval
       </em> property should be configured in <em>jmscts.properties</em> to delay the test until the expired messages are collected.
       </description>
       <attribute name="jmscts.requirement" value="message.expiration.zero"/>
@@ -1823,7 +1823,7 @@
       <name>testExpiration2DiffSubscribers</name>
       <description>
         Verifies that messages to topics expire, when one subscriber is durable, and the other non-durable. <p/> It sends two groups of messages - one group which expires after 1 second, and another which don't expire, and verifies that after the first group should have expired, only the non-expiring group can be received. <p/> If the JMS provider doesn't support immediate expiration of messages, the <em>
-          org.exolab.org.exolab.jmscts.test.producer.ttl.ExpirationTest.expirationInterval
+          org.exolab.jmscts.test.producer.ttl.ExpirationTest.expirationInterval
       </em> property should be configured in <em>jmscts.properties</em> to delay the test until the expired messages are collected.
       </description>
       <attribute name="jmscts.requirement" value="message.expiration.zero"/>
@@ -1838,7 +1838,7 @@
       <name>testExpiration2Subscribers</name>
       <description>
         Verifies that messages to topics expire, when there is more than one subscriber. <p/> It sends two groups of messages - one group which expires after 1 second, and another which don't expire, and verifies that after the first group should have expired, only the non-expiring group can be received. <p/> If the JMS provider doesn't support immediate expiration of messages, the <em>
-          org.exolab.org.exolab.jmscts.test.producer.ttl.ExpirationTest.expirationInterval
+          org.exolab.jmscts.test.producer.ttl.ExpirationTest.expirationInterval
       </em> property should be configured in <em>jmscts.properties</em> to delay the test until the expired messages are collected.
       </description>
       <attribute name="jmscts.requirement" value="message.expiration.zero"/>
@@ -1851,7 +1851,7 @@
       <name>testSingleMessageExpiration</name>
       <description>
         Verifies that a single message expires. <p/> It sends two messages - one which expires after 1 second, and another which doesn't expire, and verifies that after the first should have expired, only the non-expiring message can be received. <p/> If the JMS provider doesn't support immediate expiration of messages, the <em>
-          org.exolab.org.exolab.jmscts.test.producer.ttl.ExpirationTest.expirationInterval
+          org.exolab.jmscts.test.producer.ttl.ExpirationTest.expirationInterval
       </em> property should be configured in <em>jmscts.properties</em> to delay the test until the expired messages are collected.
       </description>
       <attribute name="jmscts.requirement" value="message.expiration.zero"/>
@@ -1861,7 +1861,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.transacted.RecoverTest</name>
+    <name>org.exolab.jmscts.test.session.transacted.RecoverTest</name>
     <description>
       This class verifies that methods used only for transacted sessions throw <code>IllegalStateException</code> if invoked
     </description>
@@ -1882,7 +1882,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.selector.JMSTimestampTest</name>
+    <name>org.exolab.jmscts.test.selector.JMSTimestampTest</name>
     <description>
       This class tests selectors containing <code>JMSTimestamp</code>
     </description>
@@ -1947,7 +1947,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.topic.NoLocalTest</name>
+    <name>org.exolab.jmscts.test.topic.NoLocalTest</name>
     <description>
       This class tests the behaviour of the noLocal argument of <code>TopicSubscriber</code>
     </description>
@@ -1976,7 +1976,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.transacted.RollbackTest</name>
+    <name>org.exolab.jmscts.test.session.transacted.RollbackTest</name>
     <description>
       This class tests session rollback functionality.
     </description>
@@ -2017,7 +2017,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.stress.SendReceive2Size0KTest</name>
+    <name>org.exolab.jmscts.stress.SendReceive2Size0KTest</name>
     <description>
       Performs a stress test using one producer, two consumers and empty messages.
     </description>
@@ -2053,7 +2053,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.CloseTest</name>
+    <name>org.exolab.jmscts.test.session.CloseTest</name>
     <description>
       This class tests the behaviour of <code>Session.close</code>
     </description>
@@ -2092,7 +2092,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.properties.PropertyConversionTest</name>
+    <name>org.exolab.jmscts.test.message.properties.PropertyConversionTest</name>
     <description>
       This class tests message property conversion
     </description>
@@ -2247,7 +2247,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.clear.SendReceiveClearTest</name>
+    <name>org.exolab.jmscts.test.message.clear.SendReceiveClearTest</name>
     <description>
       This class tests the behaviour of <code>Message.clearBody()</code> and <code>Message.clearProperties()</code> on send and receipt, against all message, delivery, and transaction types
     </description>
@@ -2323,7 +2323,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.connection.SendReceiveStopTest</name>
+    <name>org.exolab.jmscts.test.connection.SendReceiveStopTest</name>
     <description>
       This class tests the behaviour of <code>Connection.stop</code> and <code>Connection.start</code>
     </description>
@@ -2372,7 +2372,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.ReceiverCloseTest</name>
+    <name>org.exolab.jmscts.test.session.ReceiverCloseTest</name>
     <description>
       This class tests the behaviour of closing a session while a receiver is active.
     </description>
@@ -2412,7 +2412,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.selector.JMSPriorityTest</name>
+    <name>org.exolab.jmscts.test.selector.JMSPriorityTest</name>
     <description>
       This class tests selectors containing <code>JMSPriority</code>
     </description>
@@ -2457,7 +2457,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.readwrite.ReadWriteTest</name>
+    <name>org.exolab.jmscts.test.message.readwrite.ReadWriteTest</name>
     <description>
       This class tests that message properties and message bodies may be read and written on creation of a new message
     </description>
@@ -2528,7 +2528,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.selector.IdentifierTest</name>
+    <name>org.exolab.jmscts.test.selector.IdentifierTest</name>
     <description>
       This class tests selector identifiers.
     </description>
@@ -2582,7 +2582,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.copy.BytesMessageTest</name>
+    <name>org.exolab.jmscts.test.message.copy.BytesMessageTest</name>
     <description>
       This class tests that <code>BytesMessage</code> copies content
     </description>
@@ -2616,7 +2616,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.clear.ClearTest</name>
+    <name>org.exolab.jmscts.test.message.clear.ClearTest</name>
     <description>
       This class tests the behaviour of <code>Message.clearBody()</code> and <code>Message.clearProperties()</code>
     </description>
@@ -2719,7 +2719,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.stress.SendReceive0KTest</name>
+    <name>org.exolab.jmscts.stress.SendReceive0KTest</name>
     <description>
       Performs a stress test using one producer, one consumer and empty messages.
     </description>
@@ -2755,7 +2755,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.NonTransactedTest</name>
+    <name>org.exolab.jmscts.test.session.NonTransactedTest</name>
     <description>
       This class verifies that methods used only for transacted sessions throw <code>IllegalStateException</code> if invoked
     </description>
@@ -2785,7 +2785,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.connection.ConnectionCloseTest</name>
+    <name>org.exolab.jmscts.test.connection.ConnectionCloseTest</name>
     <description>
       This class tests the behaviour of <code>Connection.close</code>
     </description>
@@ -2818,7 +2818,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.transacted.CloseTest</name>
+    <name>org.exolab.jmscts.test.session.transacted.CloseTest</name>
     <description>
       This class tests session rollback functionality.
     </description>
@@ -2854,7 +2854,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.selector.JMSDeliveryModeTest</name>
+    <name>org.exolab.jmscts.test.selector.JMSDeliveryModeTest</name>
     <description>
       This class tests selectors containing <code>JMSDeliveryMode</code>
     </description>
@@ -2894,7 +2894,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.header.JMSMessageIDTest</name>
+    <name>org.exolab.jmscts.test.message.header.JMSMessageIDTest</name>
     <description>
       This class tests the JMSMessageID message property
     </description>
@@ -2936,7 +2936,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.stress.Send0KTest</name>
+    <name>org.exolab.jmscts.stress.Send0KTest</name>
     <description>
       Performs a stress test using one producer and empty messages.
     </description>
@@ -2981,7 +2981,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.connection.ReceiverTest</name>
+    <name>org.exolab.jmscts.test.connection.ReceiverTest</name>
     <description>
       This class tests the behaviour of stopping and closing a connection while a receiver is active.
     </description>
@@ -3036,7 +3036,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.clear.RecoverClearTest</name>
+    <name>org.exolab.jmscts.test.message.clear.RecoverClearTest</name>
     <description>
       This class tests the behaviour of <code>Message.clearBody()</code> and <code>Message.clearProperties()</code> for CLIENT_ACKNOWLEDGE sessions where the session is recovered.
     </description>
@@ -3071,7 +3071,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.stream.StreamMessageTest</name>
+    <name>org.exolab.jmscts.test.message.stream.StreamMessageTest</name>
     <description>
       This class tests the <code>StreamMessage</code> message type
     </description>
@@ -3229,7 +3229,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.AutoAckTest</name>
+    <name>org.exolab.jmscts.test.session.AutoAckTest</name>
     <description>
       This class tests the behaviour of consumers on sessions created with the <code>Session.AUTO_ACKNOWLEDGE</code> message acknowledgment mode.
     </description>
@@ -3258,7 +3258,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.copy.ObjectMessageTest</name>
+    <name>org.exolab.jmscts.test.message.copy.ObjectMessageTest</name>
     <description>
       This class tests that <code>ObjectMessage</code> copies content
     </description>
@@ -3299,7 +3299,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.topic.DuplicateDurableSubscriberTest</name>
+    <name>org.exolab.jmscts.test.topic.DuplicateDurableSubscriberTest</name>
     <description>
       This class tests the behaviour of durable TopicSubscribers<br/>
     </description>
@@ -3328,7 +3328,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.clientack.ClientAcknowledgeTest</name>
+    <name>org.exolab.jmscts.test.session.clientack.ClientAcknowledgeTest</name>
     <description>
       This class tests the behaviour of sessions created with the <code>Session.CLIENT_ACKNOWLEDGE</code> message acknowledgment mode.
     </description>
@@ -3375,7 +3375,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.close.CloseTest</name>
+    <name>org.exolab.jmscts.test.message.close.CloseTest</name>
     <description>
       This class tests the behaviour of messages when the associated connection or session is closed.
     </description>
@@ -3422,7 +3422,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.readwrite.SendReceiveReadWriteTest</name>
+    <name>org.exolab.jmscts.test.message.readwrite.SendReceiveReadWriteTest</name>
     <description>
       This class tests that message properties and message bodies are writeable on send, and readable on receipt
     </description>
@@ -3461,7 +3461,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.clientack.SubscriberRedeliveredTest</name>
+    <name>org.exolab.jmscts.test.session.clientack.SubscriberRedeliveredTest</name>
     <description>
       This class tests the behaviour of the JMSRedelivered flag when multiple topic subscribers subscribe to the same topic, and one of the CLIENT_ACKNOWLEDGE sessions is recovered.
     </description>
@@ -3502,7 +3502,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.DupsAckTest</name>
+    <name>org.exolab.jmscts.test.session.DupsAckTest</name>
     <description>
       This class tests the behaviour of consumers on sessions created with the <code>Session.DUPS_OK_ACKNOWLEDGE</code> message acknowledgment mode.<br/>
     </description>
@@ -3532,7 +3532,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.copy.StreamMessageTest</name>
+    <name>org.exolab.jmscts.test.message.copy.StreamMessageTest</name>
     <description>
       This class verifies that <code>StreamMessage</code> copies content
     </description>
@@ -3573,7 +3573,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.ListenerCloseTest</name>
+    <name>org.exolab.jmscts.test.session.ListenerCloseTest</name>
     <description>
       This class tests the behaviour of stopping and closing a connection while a listener is active. NOTE: Temporary destinations cannot be used as a separate connection is required to verify that the test is successful.
     </description>
@@ -3615,7 +3615,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.connection.StopStartTest</name>
+    <name>org.exolab.jmscts.test.connection.StopStartTest</name>
     <description>
       This class tests the behaviour of <code>Connection.stop</code> and <code>Connection.start</code>
     </description>
@@ -3654,7 +3654,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.selector.FloatTest</name>
+    <name>org.exolab.jmscts.test.selector.FloatTest</name>
     <description>
       This class tests selectors containing floating point literals and objects.
     </description>
@@ -3986,7 +3986,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.producer.ttl.TopicPublisherTest</name>
+    <name>org.exolab.jmscts.test.producer.ttl.TopicPublisherTest</name>
     <description>
       This class tests the behaviour of the time-to-live methods and their affect on the JMSExpiration, for <code>TopicPublisher</code>s
     </description>
@@ -4079,7 +4079,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.connection.AuthTest</name>
+    <name>org.exolab.jmscts.test.connection.AuthTest</name>
     <description>
       This class tests connection authorisation
     </description>
@@ -4124,7 +4124,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.header.JMSDestinationTest</name>
+    <name>org.exolab.jmscts.test.message.header.JMSDestinationTest</name>
     <description>
       This class tests the JMSDestination message property
     </description>
@@ -4157,7 +4157,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.foreign.ForeignMessageTest</name>
+    <name>org.exolab.jmscts.test.message.foreign.ForeignMessageTest</name>
     <description>
       This class tests the behaviour of sending 'foreign' messages. A 'foreign' message is one whose implementation is not one of those of the target provider.
     </description>
@@ -4185,7 +4185,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.connection.ListenerTest</name>
+    <name>org.exolab.jmscts.test.connection.ListenerTest</name>
     <description>
       This class tests the behaviour of stopping and closing a connection while a listener is active. NOTE: Temporary destinations cannot be used as a separate connection is required to verify that the test is successful.
     </description>
@@ -4240,7 +4240,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.asf.ConnectionConsumerTest</name>
+    <name>org.exolab.jmscts.test.asf.ConnectionConsumerTest</name>
     <description>
       This class tests the behaviour of <code>ConnectionConsumer</code>s
     </description>
@@ -4267,7 +4267,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.message.bytes.BytesMessageTest</name>
+    <name>org.exolab.jmscts.test.message.bytes.BytesMessageTest</name>
     <description>
       This class tests the <code>BytesMessage</code> message type.
     </description>
@@ -4380,7 +4380,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.clientack.CloseTest</name>
+    <name>org.exolab.jmscts.test.session.clientack.CloseTest</name>
     <description>
       This class tests the behaviour of closing sessions created with the <code>Session.CLIENT_ACKNOWLEDGE</code> message acknowledgment mode.
     </description>
@@ -4416,7 +4416,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.topic.DurableSubscriberTest</name>
+    <name>org.exolab.jmscts.test.topic.DurableSubscriberTest</name>
     <description>
       This class tests the behaviour of durable TopicSubscribers
     </description>
@@ -4462,7 +4462,7 @@
   </class-meta>
 
   <class-meta>
-    <name>org.exolab.org.exolab.jmscts.test.session.transacted.CommitTest</name>
+    <name>org.exolab.jmscts.test.session.transacted.CommitTest</name>
     <description>
       This class tests session commit functionality
     </description>

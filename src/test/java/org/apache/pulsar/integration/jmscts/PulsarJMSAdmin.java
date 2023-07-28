@@ -1,8 +1,9 @@
 package org.apache.pulsar.integration.jmscts;
 
+import com.datastax.oss.pulsar.jms.PulsarConnectionFactory;
+import com.datastax.oss.pulsar.jms.PulsarQueue;
 import org.apache.pulsar.client.admin.PulsarAdmin;
 import org.apache.pulsar.client.admin.PulsarAdminException;
-import org.apache.pulsar.client.api.PulsarClientException;
 import org.exolab.jmscts.provider.Administrator;
 
 import javax.jms.*;
@@ -18,53 +19,17 @@ public class PulsarJMSAdmin implements Administrator {
     private static final String NAMESPACE = "default";
     private static final String TENANT_NS = String.format("%s/%s", TENANT, NAMESPACE);
     private static final String CONNECTION_FACTORY_NAME = "ConnectionFactory";
-
     private Context jndiContext;
-
-    private PulsarAdmin pulsarAdmin;
-
-    // This is necessary because every call to lookup creates a new queue or topic.
-    private List<String> destroyedDestinations = new ArrayList<String>();
-
-    public void initialize() {
-        try {
-            pulsarAdmin = PulsarAdmin.builder()
-                    .serviceHttpUrl("http://192.168.1.120:8080")
-                    .build();
-
-            getJndiContext().lookup(CONNECTION_FACTORY_NAME);
-        } catch (NamingException | PulsarClientException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    private PulsarConnectionFactory factory;
+    private List<String> queues = new ArrayList<>();
+    private List<String> topics = new ArrayList<>();
 
     public void close() throws JMSException {
         try {
             if (jndiContext != null) {
                 jndiContext.close();
             }
-
-            pulsarAdmin.topics().getList(TENANT_NS)
-                    .parallelStream()
-                    .filter(name -> name.contains("jms-temp-queue"))
-                    .forEach(topic -> {
-                        try {
-                            pulsarAdmin.topics().terminateTopic(topic);
-                            pulsarAdmin.topics().getSubscriptions(topic).forEach(sub -> {
-                                try {
-                                    pulsarAdmin.topics().deleteSubscription(topic, sub, true);
-                                } catch (PulsarAdminException e) {
-                                    // throw new RuntimeException(e);
-                                }
-                            });
-                            pulsarAdmin.topics().delete(topic);
-                        } catch (PulsarAdminException e) {
-                            // throw new RuntimeException(e);
-                        }
-                    });
-
-            pulsarAdmin.close();
-        } catch (final PulsarAdminException | NamingException ex) {
+        } catch (final NamingException ex) {
             wrapAndThrow(ex);
         }
     }
@@ -73,6 +38,26 @@ public class PulsarJMSAdmin implements Administrator {
         JMSException jmsException = new JMSException(ex.getLocalizedMessage());
         jmsException.setLinkedException(ex);
         throw jmsException;
+    }
+
+    private PulsarConnectionFactory getFactory() {
+        if (factory == null) {
+            try {
+                factory =  (PulsarConnectionFactory) getJndiContext()
+                        .lookup(CONNECTION_FACTORY_NAME);
+            } catch (NamingException e) {
+                // Ignore
+            }
+        }
+        return factory;
+    }
+
+    private boolean isQueue(String name) {
+        return queues.contains(name);
+    }
+
+    private boolean isTopic(String name) {
+        return topics.contains(name);
     }
 
     private Context getJndiContext() throws NamingException {
@@ -84,6 +69,7 @@ public class PulsarJMSAdmin implements Administrator {
             properties.setProperty("webServiceUrl", "http://192.168.1.120:8080");
             properties.setProperty("autoCloseConnectionFactory", "true");
             properties.put("jms.emulateTransactions", true);
+            properties.put("jms.forceDeleteTemporaryDestinations", true);
             properties.setProperty("jms.systemNamespace", TENANT_NS);
             jndiContext = new InitialContext(properties);
         }
@@ -111,15 +97,15 @@ public class PulsarJMSAdmin implements Administrator {
     }
 
     @Override
-    public Object lookup(String name) throws NamingException {
+    public Object lookup(String name) throws NamingException{
         if (name.contains("/") || name.equals(CONNECTION_FACTORY_NAME)) {
             return getJndiContext().lookup(name);
-        } else {
-            /* TOTAL Hack for now, to prevent these errors since the test doesn't prepend "queue/" or "topic/" for us
-               javax.naming.InvalidNameException: Name SendReceiveStopTest67 is not valid
-             */
+        } else if (isQueue(name)){
             return getJndiContext().lookup("queues/" + name);
+        } else if (isTopic(name)) {
+            return getJndiContext().lookup("topics/" + name);
         }
+        return null;
     }
 
     @Override
@@ -127,8 +113,10 @@ public class PulsarJMSAdmin implements Administrator {
         try {
             if (isQueue) {
                 Queue queue = (Queue) getJndiContext().lookup(String.format("queues/%s",name));
+                queues.add(name);
             } else {
                 Topic topic = (Topic) getJndiContext().lookup(String.format("topics/%s",name));
+                topics.add(name);
             }
         } catch (final NamingException nEx) {
             wrapAndThrow(nEx);
@@ -137,11 +125,57 @@ public class PulsarJMSAdmin implements Administrator {
 
     @Override
     public void destroyDestination(String name) throws JMSException {
-        destroyedDestinations.add(name);
+        String topicName = null;
+        try {
+            if (isQueue(name)) {
+                PulsarQueue queue = (PulsarQueue) getJndiContext().lookup(String.format("queues/%s", name));
+                topicName = queue.getInternalTopicName();
+                queues.remove(name);
+            } else if (isTopic(name)) {
+                Topic topic = (Topic) getJndiContext().lookup(String.format("topics/%s", name));
+                topicName = topic.getTopicName();
+                topics.remove(name);
+            }
+
+            if (topicName != null) {
+                String fullQualifiedTopicName = getFactory().applySystemNamespace(topicName);
+                boolean forceDelete = getFactory().isForceDeleteTemporaryDestinations();
+
+                if (getFactory().getPulsarAdmin().topics().getPartitionedTopicList(TENANT_NS)
+                        .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName))) {
+                    getFactory().getPulsarAdmin().topics().deletePartitionedTopic(fullQualifiedTopicName, forceDelete);
+                } else if (getFactory().getPulsarAdmin().topics().getList(TENANT_NS)
+                        .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName)))  {
+                    getFactory().getPulsarAdmin().topics().delete(fullQualifiedTopicName, forceDelete);
+                }
+            }
+
+        } catch (final NamingException nEx) {
+            // Ignore these.
+        } catch (PulsarAdminException paEx) {
+            paEx.printStackTrace();
+            wrapAndThrow(paEx);
+        }
     }
 
     @Override
     public boolean destinationExists(String name) throws JMSException {
-        return !destroyedDestinations.contains(name);
+        if(queues.contains(name) || topics.contains(name)) {
+            return true;
+        } else {
+            try {
+                String fullQualifiedTopicName = getFactory().applySystemNamespace(name);
+                if (getFactory().getPulsarAdmin().topics().getPartitionedTopicList(TENANT_NS)
+                        .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName))) {
+                    return true;
+                } else if (getFactory().getPulsarAdmin().topics().getList(TENANT_NS)
+                        .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName))) {
+                    return true;
+                }
+            } catch (final PulsarAdminException paEx) {
+                // Ignore these.
+            }
+        }
+        return false;
     }
 }

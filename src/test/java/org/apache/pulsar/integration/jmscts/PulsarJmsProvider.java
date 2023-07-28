@@ -13,13 +13,7 @@ public class PulsarJmsProvider implements Provider {
 
     @Override
     public void initialise(boolean b) throws JMSException {
-        try {
-            ((PulsarJMSAdmin) getAdministrator()).initialize();
-        } catch (final Exception pcEx) {
-            JMSException jmsException = new JMSException(pcEx.getLocalizedMessage());
-            jmsException.setLinkedException(pcEx);
-            throw jmsException;
-        }
+
     }
 
     @Override
