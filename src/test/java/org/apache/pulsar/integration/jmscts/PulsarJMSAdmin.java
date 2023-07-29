@@ -2,7 +2,6 @@ package org.apache.pulsar.integration.jmscts;
 
 import com.datastax.oss.pulsar.jms.PulsarConnectionFactory;
 import com.datastax.oss.pulsar.jms.PulsarQueue;
-import org.apache.pulsar.client.admin.PulsarAdmin;
 import org.apache.pulsar.client.admin.PulsarAdminException;
 import org.exolab.jmscts.provider.Administrator;
 
@@ -160,21 +159,17 @@ public class PulsarJMSAdmin implements Administrator {
 
     @Override
     public boolean destinationExists(String name) throws JMSException {
-        if(queues.contains(name) || topics.contains(name)) {
-            return true;
-        } else {
-            try {
-                String fullQualifiedTopicName = getFactory().applySystemNamespace(name);
-                if (getFactory().getPulsarAdmin().topics().getPartitionedTopicList(TENANT_NS)
-                        .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName))) {
-                    return true;
-                } else if (getFactory().getPulsarAdmin().topics().getList(TENANT_NS)
-                        .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName))) {
-                    return true;
-                }
-            } catch (final PulsarAdminException paEx) {
-                // Ignore these.
+        try {
+            String fullQualifiedTopicName = getFactory().applySystemNamespace(name);
+            if (getFactory().getPulsarAdmin().topics().getPartitionedTopicList(TENANT_NS)
+                    .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName))) {
+                return true;
+            } else if (getFactory().getPulsarAdmin().topics().getList(TENANT_NS)
+                    .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName))) {
+                return true;
             }
+        } catch (final PulsarAdminException paEx) {
+            // Ignore these.
         }
         return false;
     }

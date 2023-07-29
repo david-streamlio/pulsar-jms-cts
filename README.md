@@ -1,7 +1,8 @@
 # Pulsar JMS Client Compliance Test Suite
 Overview
 
-This a test harness for exercising the Pulsar JMS client against the JMS 1.1 specification. It uses the Java Message Service Compliance Test Suite.
+This a test harness for exercising the Pulsar JMS client against the JMS 1.1 specification. It uses the Java Message 
+Service Compliance [Test Suite](https://jmscts.sourceforge.net/).
 
 ## Running the Compliance Test Suite
 ---
