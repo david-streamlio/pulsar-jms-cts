@@ -8,9 +8,13 @@ Service Compliance [Test Suite](https://jmscts.sourceforge.net/).
 ---
 Running the test suite against an externally provided broker
 
+```bash
+export JAVA_HOME=   # Set this to the desired JDK
 
----
-Running the test suite against a build-started broker
+./bin/setenv.sh
+./bin/jmscts.sh run
+```
+
 
 ## Reading the results
 

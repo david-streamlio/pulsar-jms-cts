@@ -10,18 +10,20 @@ import javax.jms.Queue;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 public class PulsarJMSAdmin implements Administrator {
 
-    private static final String TENANT = "public";
-    private static final String NAMESPACE = "default";
-    private static final String TENANT_NS = String.format("%s/%s", TENANT, NAMESPACE);
     private static final String CONNECTION_FACTORY_NAME = "ConnectionFactory";
+    public static final String CONFIG_FILE ="pulsar.configFile";
+    private Properties pulsarProperties;
     private Context jndiContext;
     private PulsarConnectionFactory factory;
-    private List<String> queues = new ArrayList<>();
-    private List<String> topics = new ArrayList<>();
+    private Map<String, Boolean> queues = new HashMap<>(1024);
+    private Map<String, Boolean> topics = new HashMap<>(1024);
 
     public void close() throws JMSException {
         try {
@@ -39,10 +41,22 @@ public class PulsarJMSAdmin implements Administrator {
         throw jmsException;
     }
 
+    private Properties getProperties() {
+        if (pulsarProperties == null) {
+            try (InputStream input = new FileInputStream(System.getProperty(CONFIG_FILE))) {
+                pulsarProperties = new Properties();
+                pulsarProperties.load(input);
+            } catch (IOException e) {
+                throw new RuntimeException("Missing configuration data");
+            }
+        }
+        return pulsarProperties;
+    }
+
     private PulsarConnectionFactory getFactory() {
         if (factory == null) {
             try {
-                factory =  (PulsarConnectionFactory) getJndiContext()
+                factory = (PulsarConnectionFactory) getJndiContext()
                         .lookup(CONNECTION_FACTORY_NAME);
             } catch (NamingException e) {
                 // Ignore
@@ -52,25 +66,16 @@ public class PulsarJMSAdmin implements Administrator {
     }
 
     private boolean isQueue(String name) {
-        return queues.contains(name);
+        return queues.containsKey(name);
     }
 
     private boolean isTopic(String name) {
-        return topics.contains(name);
+        return topics.containsKey(name);
     }
 
     private Context getJndiContext() throws NamingException {
         if (jndiContext == null) {
-            Properties properties = new Properties();
-            properties.setProperty(Context.INITIAL_CONTEXT_FACTORY,
-                    "com.datastax.oss.pulsar.jms.jndi.PulsarInitialContextFactory");
-            properties.setProperty(Context.PROVIDER_URL, "pulsar://192.168.1.120:6650");
-            properties.setProperty("webServiceUrl", "http://192.168.1.120:8080");
-            properties.setProperty("autoCloseConnectionFactory", "true");
-            properties.put("jms.emulateTransactions", true);
-            properties.put("jms.forceDeleteTemporaryDestinations", true);
-            properties.setProperty("jms.systemNamespace", TENANT_NS);
-            jndiContext = new InitialContext(properties);
+            jndiContext = new InitialContext(getProperties());
         }
         return jndiContext;
     }
@@ -112,10 +117,10 @@ public class PulsarJMSAdmin implements Administrator {
         try {
             if (isQueue) {
                 Queue queue = (Queue) getJndiContext().lookup(String.format("queues/%s",name));
-                queues.add(name);
+                queues.put(name, true);
             } else {
                 Topic topic = (Topic) getJndiContext().lookup(String.format("topics/%s",name));
-                topics.add(name);
+                topics.put(name, true);
             }
         } catch (final NamingException nEx) {
             wrapAndThrow(nEx);
@@ -140,10 +145,12 @@ public class PulsarJMSAdmin implements Administrator {
                 String fullQualifiedTopicName = getFactory().applySystemNamespace(topicName);
                 boolean forceDelete = getFactory().isForceDeleteTemporaryDestinations();
 
-                if (getFactory().getPulsarAdmin().topics().getPartitionedTopicList(TENANT_NS)
+                if (getFactory().getPulsarAdmin().topics().getPartitionedTopicList(getProperties()
+                        .getProperty("jms.systemNamespace", "public/default"))
                         .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName))) {
                     getFactory().getPulsarAdmin().topics().deletePartitionedTopic(fullQualifiedTopicName, forceDelete);
-                } else if (getFactory().getPulsarAdmin().topics().getList(TENANT_NS)
+                } else if (getFactory().getPulsarAdmin().topics().getList(getProperties()
+                                .getProperty("jms.systemNamespace", "public/default"))
                         .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName)))  {
                     getFactory().getPulsarAdmin().topics().delete(fullQualifiedTopicName, forceDelete);
                 }
@@ -161,10 +168,12 @@ public class PulsarJMSAdmin implements Administrator {
     public boolean destinationExists(String name) throws JMSException {
         try {
             String fullQualifiedTopicName = getFactory().applySystemNamespace(name);
-            if (getFactory().getPulsarAdmin().topics().getPartitionedTopicList(TENANT_NS)
+            if (getFactory().getPulsarAdmin().topics().getPartitionedTopicList(getProperties()
+                            .getProperty("jms.systemNamespace", "public/default"))
                     .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName))) {
                 return true;
-            } else if (getFactory().getPulsarAdmin().topics().getList(TENANT_NS)
+            } else if (getFactory().getPulsarAdmin().topics().getList(getProperties()
+                            .getProperty("jms.systemNamespace", "public/default"))
                     .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName))) {
                 return true;
             }

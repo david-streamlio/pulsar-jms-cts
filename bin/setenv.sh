@@ -16,7 +16,4 @@ CLASSPATH="$JMSCTS_HOME"/target/pulsar-jms-cts-0.0.1-tests.jar
 #
 JAVA_OPTS=-Xmx4G
 JAVA_OPTS="$JAVA_OPTS \
-           -Dopenjms.home=$OPENJMS_HOME \
-           -Djavax.net.ssl.trustStore=$OPENJMS_HOME/config/client.keystore \
-           -Djavax.net.ssl.keyStore=$OPENJMS_HOME/config/client.keystore \
-           -Djavax.net.ssl.keyStorePassword=openjms"
+           -Dpulsar.configFile=$JMSCTS_HOME/src/test/resources/defaults.properties"
