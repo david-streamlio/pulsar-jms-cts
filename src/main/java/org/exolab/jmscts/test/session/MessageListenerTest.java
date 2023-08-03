@@ -153,7 +153,6 @@ public class MessageListenerTest extends AbstractSendReceiveTestCase {
                 maxWait -= (System.currentTimeMillis() - startWait);
             }
         }
-        close(consumers);
 
         // acknowledge the messages, so that the destinations can be destroyed
         // cleanly on test completion
@@ -169,6 +168,8 @@ public class MessageListenerTest extends AbstractSendReceiveTestCase {
             fail("Received " + listener.getReceived()
                  + " messages, but expected " + expected);
         }
+
+        close(consumers);
     }
 
     /**
