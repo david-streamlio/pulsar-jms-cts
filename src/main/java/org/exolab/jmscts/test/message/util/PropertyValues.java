@@ -61,29 +61,27 @@ public interface PropertyValues {
     /**
      * Byte values to test against
      */
-    Byte[] BYTES = {new Byte(Byte.MIN_VALUE), new Byte(Byte.MAX_VALUE)};
+    Byte[] BYTES = {Byte.MIN_VALUE, Byte.MAX_VALUE};
 
     /**
      * Short values to test against
      */
-    Short[] SHORTS = {new Short(Short.MIN_VALUE), new Short(Short.MAX_VALUE)};
+    Short[] SHORTS = {Short.MIN_VALUE, Short.MAX_VALUE};
 
     /**
      * Int values to test against
      */
-    Integer[] INTS = {new Integer(Integer.MIN_VALUE),
-                      new Integer(Integer.MAX_VALUE)};
+    Integer[] INTS = {Integer.MIN_VALUE, Integer.MAX_VALUE};
 
     /**
      * Long values to test against
      */
-    Long[] LONGS = {new Long(Long.MIN_VALUE), new Long(Long.MAX_VALUE)};
+    Long[] LONGS = {Long.MIN_VALUE, Long.MAX_VALUE};
 
     /**
      * Float values to test against
      */
-    Float[] FLOATS = {
-        new Float(Float.MIN_VALUE), new Float(Float.MAX_VALUE)
+    Float[] FLOATS = { Float.MIN_VALUE, Float.MAX_VALUE
 //        new Float(Float.NaN),
 //        new Float(Float.NEGATIVE_INFINITY),
 //        new Float(Float.POSITIVE_INFINITY)
@@ -92,8 +90,7 @@ public interface PropertyValues {
     /**
      * Double values to test against
      */
-    Double[] DOUBLES = {
-        new Double(Double.MIN_VALUE), new Double(Double.MAX_VALUE)
+    Double[] DOUBLES = {Double.MIN_VALUE, Double.MAX_VALUE
 //        new Double(Double.NaN),
 //        new Double(Double.NEGATIVE_INFINITY),
 //        new Double(Double.POSITIVE_INFINITY)
