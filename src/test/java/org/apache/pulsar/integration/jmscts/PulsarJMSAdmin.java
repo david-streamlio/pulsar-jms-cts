@@ -145,6 +145,14 @@ public class PulsarJMSAdmin implements Administrator {
                 String fullQualifiedTopicName = getFactory().applySystemNamespace(topicName);
                 boolean forceDelete = getFactory().isForceDeleteTemporaryDestinations();
 
+                getFactory().getPulsarAdmin().topics()
+                        .getSubscriptions(fullQualifiedTopicName).forEach(subName -> {
+                            try {
+                                getFactory().getPulsarAdmin().topics()
+                                        .deleteSubscription(fullQualifiedTopicName, subName, true);
+                            } catch (final Exception ex) {}
+                        });
+
                 if (getFactory().getPulsarAdmin().topics().getPartitionedTopicList(getProperties()
                         .getProperty("jms.systemNamespace", "public/default"))
                         .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName))) {
@@ -152,7 +160,9 @@ public class PulsarJMSAdmin implements Administrator {
                 } else if (getFactory().getPulsarAdmin().topics().getList(getProperties()
                                 .getProperty("jms.systemNamespace", "public/default"))
                         .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName)))  {
+
                     getFactory().getPulsarAdmin().topics().delete(fullQualifiedTopicName, forceDelete);
+                    getFactory().getPulsarAdmin().topics().terminateTopic(fullQualifiedTopicName);
                 }
             }
 

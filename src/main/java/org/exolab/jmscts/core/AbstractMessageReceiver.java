@@ -44,6 +44,8 @@
  */
 package org.exolab.jmscts.core;
 
+import com.datastax.oss.pulsar.jms.PulsarMessageConsumer;
+
 import javax.jms.*;
 
 
@@ -106,9 +108,13 @@ abstract class AbstractMessageReceiver implements MessageReceiver {
     @Override
     public Destination getDestination() throws JMSException {
         Destination result = null;
-        if (_consumer instanceof QueueReceiver) {
+        try {
             result = ((QueueReceiver) _consumer).getQueue();
-        } else {
+        } catch (final JMSException ex) {
+            /* Given the class definition of the PulsarMessageConsumer, an exception
+             * getting thrown is entirely possible, so we will try again as a Topic
+             * if THAT fails, then we truly have an exception.
+             */
             result = ((TopicSubscriber) _consumer).getTopic();
         }
         return result;
