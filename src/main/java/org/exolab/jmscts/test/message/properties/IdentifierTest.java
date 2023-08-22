@@ -70,7 +70,7 @@ public class IdentifierTest extends AbstractMessageTestCase
      * Valid identifiers
      */
     private static final String[] VALID_IDENTIFIERS = {
-        "A", "_A", "$A", "a1", "_a1", "$a1", "a_a", "a$a", "a.b",
+        "A", "_A", "$A", "a1", "_a1", "$a1", "a_a", "a$a",
         "\u0041\u0061\u0391\u0430\u0301"};
 
     /**

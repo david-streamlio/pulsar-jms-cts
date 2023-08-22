@@ -2,10 +2,16 @@ package org.apache.pulsar.integration.jmscts;
 
 import com.datastax.oss.pulsar.jms.PulsarConnectionFactory;
 import com.datastax.oss.pulsar.jms.PulsarQueue;
+import org.apache.pulsar.client.admin.PulsarAdmin;
 import org.apache.pulsar.client.admin.PulsarAdminException;
+import org.apache.pulsar.common.policies.data.PartitionedTopicStats;
+import org.apache.pulsar.common.policies.data.TopicStats;
 import org.exolab.jmscts.provider.Administrator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.jms.*;
+import javax.jms.IllegalStateException;
 import javax.jms.Queue;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -16,6 +22,8 @@ import java.io.InputStream;
 import java.util.*;
 
 public class PulsarJMSAdmin implements Administrator {
+
+    private static final Logger log = LoggerFactory.getLogger(PulsarJMSAdmin.class);
 
     private static final String CONNECTION_FACTORY_NAME = "ConnectionFactory";
     public static final String CONFIG_FILE ="pulsar.configFile";
@@ -63,6 +71,10 @@ public class PulsarJMSAdmin implements Administrator {
             }
         }
         return factory;
+    }
+
+    private PulsarAdmin getPulsarAdmin() throws IllegalStateException {
+        return getFactory().getPulsarAdmin();
     }
 
     private boolean isQueue(String name) {
@@ -143,35 +155,85 @@ public class PulsarJMSAdmin implements Administrator {
 
             if (topicName != null) {
                 String fullQualifiedTopicName = getFactory().applySystemNamespace(topicName);
-                boolean forceDelete = getFactory().isForceDeleteTemporaryDestinations();
 
-                getFactory().getPulsarAdmin().topics()
-                        .getSubscriptions(fullQualifiedTopicName).forEach(subName -> {
-                            try {
-                                getFactory().getPulsarAdmin().topics()
-                                        .deleteSubscription(fullQualifiedTopicName, subName, true);
-                            } catch (final Exception ex) {}
-                        });
-
-                if (getFactory().getPulsarAdmin().topics().getPartitionedTopicList(getProperties()
-                        .getProperty("jms.systemNamespace", "public/default"))
-                        .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName))) {
-                    getFactory().getPulsarAdmin().topics().deletePartitionedTopic(fullQualifiedTopicName, forceDelete);
-                } else if (getFactory().getPulsarAdmin().topics().getList(getProperties()
+                if (getPulsarAdmin().topics().getPartitionedTopicList(getProperties()
                                 .getProperty("jms.systemNamespace", "public/default"))
-                        .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName)))  {
+                        .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName))) {
 
-                    getFactory().getPulsarAdmin().topics().delete(fullQualifiedTopicName, forceDelete);
-                    getFactory().getPulsarAdmin().topics().terminateTopic(fullQualifiedTopicName);
+                    getPulsarAdmin().topics().getPartitionedStats(fullQualifiedTopicName, true)
+                            .getSubscriptions().forEach( (sub, stats) -> {
+                                try {
+                                    getPulsarAdmin()
+                                            .topics().deleteSubscription(sub, fullQualifiedTopicName, true);
+                                     } catch (final Exception ex) {
+                                         log.info("Unable to delete subscription {} on {}", sub, fullQualifiedTopicName);
+                                     }
+                    });
+
+                    if (getNumberOfActiveConsumers(fullQualifiedTopicName, true) == 0) {
+                        getPulsarAdmin().topics().deletePartitionedTopic(fullQualifiedTopicName, true);
+                    }
+
+                } else if (getPulsarAdmin().topics().getList(getProperties()
+                                .getProperty("jms.systemNamespace", "public/default"))
+                        .stream().anyMatch(t -> t.equalsIgnoreCase(fullQualifiedTopicName))) {
+
+                    getPulsarAdmin().topics().terminateTopic(fullQualifiedTopicName);
+
+                    getPulsarAdmin().topics().getStats(fullQualifiedTopicName)
+                            .getSubscriptions().forEach( (sub, stats) -> {
+                                try {
+                                    getPulsarAdmin()
+                                            .topics().deleteSubscription(sub, fullQualifiedTopicName, true);
+                                } catch (final Exception ex) {
+                                    log.warn("Unable to delete subscription {} on {}", sub, fullQualifiedTopicName, ex);
+                                }
+                            });
+
+                    if (getNumberOfActiveConsumers(fullQualifiedTopicName, false) == 0) {
+                        getPulsarAdmin().topics().delete(fullQualifiedTopicName, true);
+                    }
                 }
             }
 
         } catch (final NamingException nEx) {
             // Ignore these.
-        } catch (PulsarAdminException paEx) {
+        } catch (Exception paEx) {
             paEx.printStackTrace();
-            wrapAndThrow(paEx);
+           //  wrapAndThrow(paEx);
         }
+    }
+
+    private int getNumberOfActiveConsumers(String topic, boolean partitionedTopic)
+            throws IllegalStateException, PulsarAdminException {
+        int numConsumers, numAttempts = 0;
+
+        do {
+            if (partitionedTopic) {
+                PartitionedTopicStats partitionedStats = getFactory().getPulsarAdmin()
+                        .topics().getPartitionedStats(topic, true);
+
+                log.info("Partition Stats {}", partitionedStats);
+                numConsumers = partitionedStats.getSubscriptions().values().stream()
+                        .mapToInt(s -> s.getConsumers().size()).sum();
+
+            } else {
+                TopicStats stats = getFactory().getPulsarAdmin().topics().getStats(topic);
+                log.info("Stats {}", stats);
+                numConsumers = stats.getSubscriptions().values().stream().mapToInt(s -> s.getConsumers().size()).sum();
+            }
+
+            if (numConsumers > 0) {
+                try {
+                    Thread.sleep(1000);
+                } catch (final InterruptedException ex) {
+                    // Ignore these
+                }
+            }
+
+        } while (numConsumers > 0 && numAttempts++ < 3);
+
+        return numConsumers;
     }
 
     @Override

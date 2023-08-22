@@ -186,6 +186,7 @@ final class PropertyHelper implements PropertyValues {
             String name = (String) iter.nextElement();
             Object value = message.getObjectProperty(name);
             result.put(name, value);
+
         }
         return result;
     }

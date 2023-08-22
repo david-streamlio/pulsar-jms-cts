@@ -161,6 +161,12 @@ public class MessageListenerTest extends AbstractSendReceiveTestCase {
             last.acknowledge();
         }
 
+        /* Close the consumers before any failures are thrown, so that the destinations
+         * can be destroyed cleanly.
+         */
+
+        close(consumers);
+
         if (listener.getFailures() != 0) {
             fail("The listener was not invoked serially");
         }
@@ -169,7 +175,6 @@ public class MessageListenerTest extends AbstractSendReceiveTestCase {
                  + " messages, but expected " + expected);
         }
 
-        close(consumers);
     }
 
     /**

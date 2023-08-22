@@ -127,6 +127,8 @@ public class JMSDestinationTest extends AbstractSendReceiveTestCase {
 
         // send the message, and receive it from the same destination
         Message received = sendReceive(message, dest);
+        acknowledge(received);
+
         Destination sentDest = message.getJMSDestination();
         assertTrue("JMSDestination after send not equal to that specified",
                    DestinationHelper.equal(dest, sentDest));
@@ -134,7 +136,6 @@ public class JMSDestinationTest extends AbstractSendReceiveTestCase {
         Destination receivedDest = received.getJMSDestination();
         assertTrue("JMSDestination on receipt not equal to that when sent",
                    DestinationHelper.equal(dest, receivedDest));
-        acknowledge(received);
     }
 
     /**
@@ -156,13 +157,15 @@ public class JMSDestinationTest extends AbstractSendReceiveTestCase {
         // resend the message to a different destination
         Message resent = received1;
         Message received2 = sendReceive(resent, dest2);
+
         assertTrue("JMSDestination on resend not equal to that specified",
                    DestinationHelper.equal(dest2, resent.getJMSDestination()));
 
+        acknowledge(received2);
         assertTrue("JMSDestination on receipt not equal to that when resent",
                    DestinationHelper.equal(
                        dest2, received2.getJMSDestination()));
-        acknowledge(received2);
+
     }
 
 }

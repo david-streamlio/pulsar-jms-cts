@@ -3,15 +3,32 @@ package org.exolab.jmscts.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jms.JMSException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public abstract class Utils {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Utils.class);
 
+  private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10);
+
   private Utils() {
+  }
+
+  public static void waitToRemove(Duration delay, MessageReceiver removable) {
+    ScheduledFuture<?> countdown = scheduler.schedule(() -> {
+      try {
+          removable.remove();
+      } catch (JMSException ex) {
+        LOGGER.warn("Unable to close MessageReceiver", ex);
+      }
+    }, delay.toMillis(), TimeUnit.MILLISECONDS);
   }
 
   public static <T> T retryUntilNotNull(

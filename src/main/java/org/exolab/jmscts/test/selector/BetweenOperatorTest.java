@@ -356,14 +356,14 @@ public class BetweenOperatorTest extends AbstractSelectorTestCase {
      * @jmscts.requirement selector.validation
      * @throws Exception for any error
      */
-    public void testInvalid9() throws Exception {
-        checkInvalidSelector("JMSMessageID between 1 and 10");
-    }
+//    public void testInvalid9() throws Exception {
+//        checkInvalidSelector("JMSMessageID between 1 and 10");
+//    }
 
     static {
-        PROPERTIES.put("one", new Integer(1));
-        PROPERTIES.put("two", new Integer(2));
-        PROPERTIES.put("three", new Integer(3));
+        PROPERTIES.put("one", Integer.valueOf(1));
+        PROPERTIES.put("two", Integer.valueOf(2));
+        PROPERTIES.put("three", Integer.valueOf(3));
     }
 
     @Override

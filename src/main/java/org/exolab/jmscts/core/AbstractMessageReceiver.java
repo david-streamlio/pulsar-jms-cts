@@ -181,9 +181,13 @@ abstract class AbstractMessageReceiver implements MessageReceiver {
     @Override
     public void remove() throws JMSException {
         close();
-        if (_name != null && _session instanceof TopicSession) {
-            ((TopicSession) _session).unsubscribe(_name);
-        }
+
+//        if (_name != null && _session instanceof TopicSession) {
+//            ((TopicSession) _session).unsubscribe(_name);
+//        } else if (_name != null && _session instanceof QueueSession) {
+//            ((QueueSession) _session).unsubscribe(_name);
+//        }
+
     }
 
     /**

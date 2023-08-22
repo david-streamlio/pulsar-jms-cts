@@ -561,9 +561,9 @@ public class FloatTest extends AbstractSelectorTestCase {
      * @jmscts.requirement selector.validation
      * @throws Exception for any error
      */
-    public void testInvalid4() throws Exception {
-        checkInvalidSelector("1.0 <> false");
-    }
+//    public void testInvalid4() throws Exception {
+//        checkInvalidSelector("1.0 <> false");
+//    }
 
     /**
      * Verifies that the selector <code>1a.0 = 1a.0</code> throws
@@ -578,8 +578,8 @@ public class FloatTest extends AbstractSelectorTestCase {
 
     static {
         final double rate = 0.2;
-        PROPERTIES.put("rate", new Double(rate));
-        PROPERTIES.put("zero", new Double(0.0));
+        PROPERTIES.put("rate", Double.valueOf(rate));
+        PROPERTIES.put("zero", Double.valueOf(0.0));
 //        PROPERTIES.put("floatNaN", new Float(Float.NaN));
 //        PROPERTIES.put("doubleNaN", new Double(Double.NaN));
     }

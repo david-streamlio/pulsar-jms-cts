@@ -120,6 +120,8 @@ public class JMSMessageIDTest extends AbstractSendReceiveTestCase {
 
         // send the message, and receive it from the same destination
         Message received1 = sendReceive(message, DESTINATION);
+        acknowledge(received1);
+
         String sentID1 = message.getJMSMessageID();
         String receivedID1 = received1.getJMSMessageID();
         assertNotNull("JMSMessageID after send should not be null", sentID1);
@@ -132,6 +134,8 @@ public class JMSMessageIDTest extends AbstractSendReceiveTestCase {
         // resend the message, and verify that a new JMSMessageID is allocated
         Message resent = received1;
         Message received2 = sendReceive(resent, DESTINATION);
+        acknowledge(received2);
+
         String sentID2 = resent.getJMSMessageID();
         String receivedID2 = received2.getJMSMessageID();
         assertNotNull("JMSMessageID after resend should not be null", sentID2);
@@ -143,7 +147,6 @@ public class JMSMessageIDTest extends AbstractSendReceiveTestCase {
         assertEquals(
             "JMSMessageID on received message not equal to that sent:",
             sentID2, receivedID2);
-        acknowledge(received2);
     }
 
     /**

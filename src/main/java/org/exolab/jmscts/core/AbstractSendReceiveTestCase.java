@@ -662,7 +662,8 @@ public abstract class AbstractSendReceiveTestCase
      * @return the consumer
      * @throws Exception for any error
      */
-    protected MessageConsumer createConsumer(TestContext context, String name)
+    protected MessageConsumer
+    createConsumer(TestContext context, String name)
         throws Exception {
 
         Destination destination = getDestination(name);

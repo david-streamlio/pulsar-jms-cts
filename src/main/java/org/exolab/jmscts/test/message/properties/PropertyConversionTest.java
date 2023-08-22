@@ -486,7 +486,7 @@ public class PropertyConversionTest extends AbstractMessageTestCase
         final Class[] invalidBytes = {boolean.class, short.class, int.class,
                                       long.class, float.class, double.class};
         expectConversionException(byte.class, invalidBytes,
-                                  NumberFormatException.class);
+                MessageFormatException.class);
     }
 
     /**
@@ -513,7 +513,7 @@ public class PropertyConversionTest extends AbstractMessageTestCase
         final Class[] invalidShorts = {boolean.class, int.class, long.class,
                                        float.class, double.class};
         expectConversionException(short.class, invalidShorts,
-                                  NumberFormatException.class);
+                MessageFormatException.class);
 
     }
 
@@ -540,7 +540,7 @@ public class PropertyConversionTest extends AbstractMessageTestCase
         final Class[] invalidInts = {boolean.class, long.class, float.class,
                                      double.class};
         expectConversionException(int.class, invalidInts,
-                                  NumberFormatException.class);
+                MessageFormatException.class);
     }
 
     /**
@@ -566,7 +566,7 @@ public class PropertyConversionTest extends AbstractMessageTestCase
         final Class[] invalidLongs = {boolean.class, float.class,
                                       double.class};
         expectConversionException(long.class, invalidLongs,
-                                  NumberFormatException.class);
+                MessageFormatException.class);
     }
 
     /**
@@ -601,7 +601,7 @@ public class PropertyConversionTest extends AbstractMessageTestCase
         // check invalid string -> float conversions
         final Class[] invalidFloats = {boolean.class};
         expectConversionException(float.class, invalidFloats,
-                                  NumberFormatException.class);
+                MessageFormatException.class);
         // NOTE: the JDK 1.3 implementation of floats treats numbers that
         // exceed the range of a float as being infinity, hence the following:
         for (int i = 0; i < DOUBLES.length; ++i) {
@@ -625,7 +625,7 @@ public class PropertyConversionTest extends AbstractMessageTestCase
                 /* FILIP HANIK - removed
                 expectConversionException(float.class,
                                           new Double[]{DOUBLES[i]},
-                                          NumberFormatException.class);
+                                          MessageFormatException.class);
                */
             }
         }
@@ -668,7 +668,7 @@ public class PropertyConversionTest extends AbstractMessageTestCase
         /* FILIP HANIK - removed
         final Class[] invalidDoubles = {boolean.class};
         expectConversionException(double.class, invalidDoubles,
-                                  NumberFormatException.class);
+                                  MessageFormatException.class);
         */
     }
 
@@ -692,27 +692,27 @@ public class PropertyConversionTest extends AbstractMessageTestCase
 
         // byte
         expectException(name, byte.class, byte.class,
-                        NumberFormatException.class);
+                MessageFormatException.class);
 
         // short
         expectException(name, short.class, short.class,
-                        NumberFormatException.class);
+                MessageFormatException.class);
 
         // int
         expectException(name, int.class, int.class,
-                        NumberFormatException.class);
+                MessageFormatException.class);
 
         // long
         expectException(name, long.class, long.class,
-                        NumberFormatException.class);
+                MessageFormatException.class);
 
         // float
         expectException(name, float.class, float.class,
-                        NumberFormatException.class);
+                MessageFormatException.class);
 
         // double
         expectException(name, double.class, double.class,
-                        NumberFormatException.class);
+                MessageFormatException.class);
     }
 
     /**

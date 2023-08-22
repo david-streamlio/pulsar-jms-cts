@@ -44,6 +44,9 @@
  */
 package org.exolab.jmscts.core;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.jms.Destination;
 import javax.jms.Message;
 import javax.jms.Session;
@@ -62,6 +65,8 @@ import java.util.concurrent.atomic.AtomicReference;
  * @see TestContext
  */
 public final class MessagingHelper {
+
+    private static final Logger log = LoggerFactory.getLogger(MessagingHelper.class);
 
     /**
      * Prevent construction of utility class
@@ -160,7 +165,7 @@ public final class MessagingHelper {
      * If the session is transactional, it will be committed.
      * <br>
      * Note: the persistent state of the receiver is removed on completion,
-     * so tests for durable topic subcribers should not use this method if
+     * so tests for durable topic subscribers should not use this method if
      * more than one message is expected.
      *
      * @param context the test context
@@ -186,7 +191,7 @@ public final class MessagingHelper {
 
         MessageReceiver receiver = null;
         MessageSender sender = null;
-        List<?> messages;
+        List<?> messages = null;
         try {
             receiver = SessionHelper.createReceiver(context, destination);
             sender = SessionHelper.createSender(context, destination);
@@ -197,33 +202,34 @@ public final class MessagingHelper {
             }
             long timeout = context.getMessagingBehaviour().getTimeout();
             AtomicReference<MessageReceiver> receiverReference = new AtomicReference<>(receiver);
-            messages = receiver.receive(1, timeout);
+            // This allows 2 messages in when the receiver is async, as per the documentation
+//            messages = receiver.receive(1, timeout);
             if (messages == null) {
                 messages = Utils.retryUntilNotNull(Duration.ofSeconds(10),
-                    () -> receiverReference.get().receive(1, timeout));
+                        () -> receiverReference.get().receive(1, timeout));
             }
             if (messages == null) {
                 throw new Exception(
-                    "Failed to receive a message from destination="
-                    + DestinationHelper.getName(destination));
+                        "Failed to receive a message from destination="
+                                + DestinationHelper.getName(destination));
             }
             if (messages.size() != 1) {
                 throw new Exception("Expected one message from destination="
-                                    + DestinationHelper.getName(destination)
-                                    + " but got " + messages.size());
+                        + DestinationHelper.getName(destination)
+                        + " but got " + messages.size());
             }
             if (!(session instanceof XASession) && session.getTransacted()) {
                 session.commit();
             }
         } finally {
-            if (receiver != null) {
-                receiver.remove();
-            }
             if (sender != null) {
                 sender.close();
             }
+            if (receiver != null) {
+                Utils.waitToRemove(Duration.ofMillis(600), receiver);
+            }
         }
-        return (Message) messages.get(0);
+        return (messages != null) ? (Message) messages.get(0) : null;
     }
 
     /**

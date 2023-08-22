@@ -156,11 +156,13 @@ public class JMSCorrelationIDTest extends AbstractSendReceiveTestCase {
 
         // send the message, and receive it from the same destination
         Message received1 = sendReceive(message, DESTINATION);
+        acknowledge(received1);
+
         assertEquals(
             "JMSCorrelationID on received message doesn't match that sent",
             correlationID, received1.getJMSCorrelationID());
 
-        // resend the message, after settting its JMSCorrelationID to null,
+        // resend the message, after setting its JMSCorrelationID to null,
         // and verify that the received message also has a null
         // JMSCorrelationID
         try {
@@ -169,9 +171,9 @@ public class JMSCorrelationIDTest extends AbstractSendReceiveTestCase {
             fail("Failed to set JMSCorrelationID on received message to null");
         }
         Message received2 = sendReceive(received1, DESTINATION);
+        acknowledge(received2);
         assertNull("JMSCorrelationID on received message should be null",
                    received2.getJMSCorrelationID());
-        acknowledge(received2);
     }
 
     /**

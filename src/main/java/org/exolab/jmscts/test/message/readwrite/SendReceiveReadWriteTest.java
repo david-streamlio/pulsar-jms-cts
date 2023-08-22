@@ -182,6 +182,7 @@ public class SendReceiveReadWriteTest extends AbstractSendReceiveTestCase
             PopulatorVerifierFactory.create(message, exceptionType);
 
         Message received = sendReceive(message, DESTINATION);
+        acknowledge(received);
 
         // verify that that MessageNotWriteableException is thrown for
         // each user property type, and each set/write method of the
@@ -221,7 +222,6 @@ public class SendReceiveReadWriteTest extends AbstractSendReceiveTestCase
                  + ", message=" + exception.getMessage());
         }
 
-        acknowledge(received);
     }
 
 }

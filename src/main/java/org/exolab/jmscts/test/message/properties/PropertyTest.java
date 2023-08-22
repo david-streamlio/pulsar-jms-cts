@@ -49,6 +49,8 @@ import org.exolab.jmscts.core.AbstractSendReceiveTestCase;
 import org.exolab.jmscts.core.TestCreator;
 
 import javax.jms.Message;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -122,7 +124,7 @@ public class PropertyTest extends AbstractSendReceiveTestCase {
         Set<?> names = PropertyHelper.setProperties(message);
         beforeProperties = PropertyHelper.getProperties(message);
 
-        // verify that all of the expected properties are available
+        // verify that the expected properties are available
         if (!names.equals(beforeProperties.keySet())) {
             fail("The list of property names returned by getPropertyNames() "
                  + "is different to that set");
@@ -130,6 +132,7 @@ public class PropertyTest extends AbstractSendReceiveTestCase {
 
         // send the message to the provider, and wait to receive it back
         Message received = sendReceive(message, DESTINATION);
+        acknowledge(received);
 
         // check the properties of the message after it was sent
         afterProperties = PropertyHelper.getProperties(message);
@@ -158,7 +161,6 @@ public class PropertyTest extends AbstractSendReceiveTestCase {
         received.clearProperties();
         PropertyHelper.setProperties(received);
 
-        acknowledge(received);
     }
 
     /**
@@ -178,28 +180,39 @@ public class PropertyTest extends AbstractSendReceiveTestCase {
         // make sure no header properties are available prior to sending
         Message message = getContext().getMessage();
         for (int i = 0; i < headerNames.length; ++i) {
-            if (message.propertyExists(headerNames[i])) {
-                fail("Message.propertyExists() returned true for JMS header "
-                     + "field=" + headerNames[i]);
+            Enumeration<String> propertyNames = message.getPropertyNames();
+            while (propertyNames.hasMoreElements()) {
+                if (propertyNames.nextElement().equals(headerNames[i])) {
+                    fail("Message.getPropertyName() contains the JMS header "
+                            + "field=" + headerNames[i]);
+                }
             }
         }
 
         // make sure no header properties are available after sending, and on
         // receipt
         Message received = sendReceive(message, DESTINATION);
+        acknowledge(received);
+
         for (int i = 0; i < headerNames.length; ++i) {
-            if (message.propertyExists(headerNames[i])) {
-                fail("Message.propertyExists() returned true for JMS header "
-                     + "field=" + headerNames[i] + " after the message "
-                     + "was sent");
+            Enumeration<String> propertyNames = message.getPropertyNames();
+            while (propertyNames.hasMoreElements()) {
+                if (propertyNames.nextElement().equals(headerNames[i])) {
+                    fail("Message.getPropertyName() contains the for JMS header "
+                            + "field=" + headerNames[i] + " after the message "
+                            + "was sent");
+                }
             }
-            if (received.propertyExists(headerNames[i])) {
-                fail("Message.propertyExists() returned true for JMS header "
-                     + "field=" + headerNames[i] + " for a received message");
+
+            Enumeration<String> receivedPropertyNames = message.getPropertyNames();
+            while (receivedPropertyNames.hasMoreElements()) {
+                if (receivedPropertyNames.nextElement().equals(headerNames[i])) {
+                    fail("Message.getPropertyName() contains the JMS header "
+                            + "field=" + headerNames[i] + " for a received message");
+                }
             }
         }
 
-        acknowledge(received);
     }
 
 }
